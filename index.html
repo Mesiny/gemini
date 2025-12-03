@@ -56,6 +56,23 @@
             background: rgba(255, 255, 255, 0.3);
         }
 
+        /* 作者信息 */
+        .author {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            color: transparent;
+            /* 中心透明 */
+            font-size: 20px;
+            font-family: 'Segoe UI', sans-serif;
+            font-weight: bold;
+            z-index: 10;
+            pointer-events: none;
+            -webkit-text-stroke: 1px var(--author-border-color, rgba(255, 0, 85, 0.8));
+            /* text-stroke: 1px var(--author-border-color, rgba(0, 150, 255, 0.8));
+            text-shadow: 0 0 8px var(--author-shadow-color, rgba(0, 150, 255, 0.5)); */
+        }
+
         /* 加载提示 */
         #loader {
             position: absolute;
@@ -88,6 +105,7 @@
 <body>
 
     <button id="fullscreen-btn">⛶ 全屏模式</button>
+    <div class="author">沐三言</div>
     <video id="video-preview" playsinline></video>
     <div id="loader">正在启动摄像头与模型...</div>
 
@@ -335,6 +353,19 @@
             // 颜色选择
             gui.addColor(params, 'color').name('粒子颜色').onChange(val => {
                 material.color.set(val);
+                // 更新作者文字边框颜色
+                const hexColor = val.replace('#', '');
+                const r = parseInt(hexColor.substr(0, 2), 16);
+                const g = parseInt(hexColor.substr(2, 2), 16);
+                const b = parseInt(hexColor.substr(4, 2), 16);
+                document.documentElement.style.setProperty(
+                    '--author-border-color',
+                    `rgba(${r}, ${g}, ${b}, 0.8)`
+                );
+                document.documentElement.style.setProperty(
+                    '--author-shadow-color',
+                    `rgba(${r}, ${g}, ${b}, 0.5)`
+                );
             });
 
             // 粒子大小
